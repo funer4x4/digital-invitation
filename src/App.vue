@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import CityBackground from './components/CityBackground.vue'
 import Portada from './components/Portada.vue'
 import Detalles from './components/Detalles.vue'
@@ -66,6 +66,11 @@ const activeSection = ref('portada')
 const containerRef = ref(null)
 let observer = null
 
+const nextSection = computed(() => {
+  const currentIndex = sections.findIndex((section) => section.id === activeSection.value)
+  return currentIndex >= 0 && currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null
+})
+
 // Cambiar la sección activa manualmente al hacer clic
 function setActive(id) {
   const container = containerRef.value
@@ -75,6 +80,10 @@ function setActive(id) {
   const top = section.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop
   container.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
   section.focus({ preventScroll: true })
+}
+
+function goToNextSection() {
+  if (nextSection.value) setActive(nextSection.value.id)
 }
 
 // Configurar IntersectionObserver para detectar la sección visible en el scroll-snap
@@ -135,6 +144,19 @@ onUnmounted(() => {
         <path d="M11 5 6 9H3v6h3l5 4Z" />
         <path v-if="musicEnabled" d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14" />
         <path v-else d="m16 9 5 6m0-6-5 6" />
+      </svg>
+    </button>
+    <button
+      v-if="nextSection"
+      class="next-section-button"
+      type="button"
+      :aria-label="`Bajar a ${nextSection.label}`"
+      @click="goToNextSection"
+    >
+      <span>{{ nextSection.label }}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 5v14" />
+        <path d="m19 12-7 7-7-7" />
       </svg>
     </button>
     <!-- Paisaje medieval con ambientes de mañana, tarde y noche -->
@@ -205,6 +227,32 @@ html, body {
 .music-toggle[aria-pressed="true"] { background: #536b50cc; color: #fff5dc; }
 .music-toggle:focus-visible { outline: 3px solid #b78c50; outline-offset: 3px; }
 .music-toggle:disabled { cursor: default; opacity: .75; }
+
+.next-section-button {
+  position: fixed;
+  right: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 1001;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.65rem 0.85rem 0.65rem 1rem;
+  border: 1px solid #b8a477;
+  border-radius: 999px;
+  background: #f7edd3ed;
+  color: #40543e;
+  box-shadow: 0 2px 8px #14251d26;
+  cursor: pointer;
+  font: 700 0.85rem Georgia, serif;
+}
+.next-section-button svg { width: 18px; height: 18px; flex-shrink: 0; }
+.next-section-button:hover { background: #fff5dc; transform: translateY(-2px); }
+.next-section-button:focus-visible { outline: 3px solid #b78c50; outline-offset: 3px; }
+
+@media (max-width: 480px) {
+  .next-section-button { right: 0.75rem; font-size: 0.78rem; }
+}
 
 .app-wrapper {
   position: relative;
