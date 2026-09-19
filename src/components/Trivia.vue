@@ -115,6 +115,11 @@ const questions = [
     correct: 2
   },
   {
+    question: '¿Cuál es la película favorita de Santiago?',
+    options: ['Coco', 'Mulán', 'El extraño mundo de Jack', 'Luca'],
+    correct: 0
+  },
+  {
     question: '¿Cómo se porta Santiago en una fiesta?',
     options: [
       'Tranquilo y calladito, sentado en su silla',
