@@ -17,9 +17,6 @@
           <h2 class="letter-title">¡Santiago Cumple 2!</h2>
           <p class="letter-subtitle">¡Acompáñame a celebrar entre castillos y caballeros!</p>
           <div class="letter-tag">{{ party.date }}</div>
-          <button class="go-details-btn" @click.stop="scrollToDetails">
-            Ver detalles de la fiesta ⬇
-          </button>
         </div>
 
         <div class="card-burst" aria-hidden="true">
