@@ -64,7 +64,7 @@
   align-items: center;
   justify-content: center;
   background: transparent;
-  padding: 5rem 3rem 3rem 1.25rem;
+  padding: 5rem 3rem 3rem;
   box-sizing: border-box;
 }
 
