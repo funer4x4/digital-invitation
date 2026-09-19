@@ -44,6 +44,16 @@ function disableMusic() {
   audioRef.value?.pause()
 }
 
+function stopMusic() {
+  audioRef.value?.pause()
+}
+
+function stopMusicWhenHidden() {
+  if (document.visibilityState === 'hidden') {
+    stopMusic()
+  }
+}
+
 // Secciones para la navegación lateral por anclas
 const sections = [
   { id: 'portada', label: 'Portada' },
@@ -71,6 +81,8 @@ function setActive(id) {
 onMounted(() => {
   document.addEventListener('click', startSoundtrack)
   document.addEventListener('keydown', startSoundtrack)
+  document.addEventListener('visibilitychange', stopMusicWhenHidden)
+  window.addEventListener('pagehide', stopMusic)
   playMusic()
   const options = {
     root: containerRef.value,
@@ -93,6 +105,8 @@ onMounted(() => {
 
 onUnmounted(() => {
   removeMusicListeners()
+  document.removeEventListener('visibilitychange', stopMusicWhenHidden)
+  window.removeEventListener('pagehide', stopMusic)
   audioRef.value?.pause()
   if (observer) observer.disconnect()
 })
