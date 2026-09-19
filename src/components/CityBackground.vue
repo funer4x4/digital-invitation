@@ -115,8 +115,8 @@ onUnmounted(() => {
 /* Floating Time Selector Widget */
 .time-widget-wrapper {
   position: fixed;
-  top: 1.2rem;
-  left: 1.5rem;
+  top: 0.8rem;
+  left: 1rem;
   z-index: 1001;
   pointer-events: auto;
 }
@@ -124,27 +124,28 @@ onUnmounted(() => {
 .time-widget {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem;
+  gap: 0.12rem;
+  padding: 0.18rem;
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(12px);
   border-radius: 9999px;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
 }
 
 .time-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.35rem 0.75rem;
+  gap: 0.18rem;
+  min-height: 32px;
+  padding: 0.2rem 0.48rem;
   border: none;
   background: transparent;
   border-radius: 9999px;
   font-family: 'Fredoka', sans-serif;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.68rem;
   color: #475569;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -152,7 +153,7 @@ onUnmounted(() => {
 }
 
 .time-btn .icon {
-  font-size: 0.95rem;
+  font-size: 0.78rem;
 }
 
 .time-btn:hover {
@@ -163,7 +164,7 @@ onUnmounted(() => {
 .time-btn.active {
   background: #0284c7;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+  box-shadow: 0 2px 7px rgba(2, 132, 199, 0.3);
 }
 
 /* Full scene variants share composition for a gentle change of light. */

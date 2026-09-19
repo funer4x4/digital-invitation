@@ -126,22 +126,6 @@ onUnmounted(() => {
     <!-- Paisaje medieval con ambientes de mañana, tarde y noche -->
     <CityBackground />
 
-    <!-- Menú lateral flotante de puntitos (.nav-dots) -->
-    <nav class="nav-dots" aria-label="Navegación entre secciones">
-      <a
-        v-for="sec in sections"
-        :key="sec.id"
-        :href="`#${sec.id}`"
-        class="dot-link"
-        :class="{ active: activeSection === sec.id }"
-        :aria-label="sec.label"
-        @click.prevent="setActive(sec.id)"
-      >
-        <span class="dot-inner"></span>
-        <span class="dot-tooltip">{{ sec.label }}</span>
-      </a>
-    </nav>
-
     <!-- Contenedor principal con scroll vertical estricto (scroll-snap-type: y mandatory) -->
     <main class="snap-container" ref="containerRef">
       <Portada @show-details="setActive('detalles')" />

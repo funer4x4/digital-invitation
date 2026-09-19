@@ -23,7 +23,8 @@
         </div>
 
         <div class="card-burst" aria-hidden="true">
-          <span v-for="spark in 12" :key="spark" class="card-burst-ray" :style="{ '--ray': `${spark * 30}deg` }"></span>
+          <span v-for="spark in 16" :key="spark" class="card-burst-ray" :style="{ '--ray': `${spark * 22.5}deg` }"></span>
+          <span v-for="spark in 5" :key="`star-${spark}`" class="card-burst-star" :class="`card-burst-star-${spark}`">✦</span>
           <span class="card-burst-glow"></span>
         </div>
 
@@ -386,7 +387,7 @@ function scrollToDetails() {
 /* Brief burst that follows the letter as it emerges. */
 .card-burst {
   position: absolute;
-  top: 28%;
+  top: 57%;
   left: 50%;
   z-index: 11;
   width: 1px;
@@ -396,28 +397,75 @@ function scrollToDetails() {
   transform: translate(-50%, -50%);
 }
 
+.card-burst::before,
+.card-burst::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 230px;
+  height: 180px;
+  background: linear-gradient(90deg, transparent 4%, #ffe98a66 34%, #fffde1cc 50%, #ffe98a66 66%, transparent 96%);
+  filter: blur(12px);
+  transform-origin: 50% 100%;
+  opacity: 0;
+}
+
+.card-burst::before {
+  transform: translate(-50%, 4px) rotate(-20deg) skewX(-12deg);
+}
+
+.card-burst::after {
+  transform: translate(-50%, 4px) rotate(20deg) skewX(12deg);
+}
+
 .card-burst-glow {
   position: absolute;
-  width: 72px;
-  height: 72px;
+  width: 150px;
+  height: 78px;
   border-radius: 50%;
-  background: #fff8c8;
-  box-shadow: 0 0 18px 8px #ffe59a, 0 0 48px 18px #fff1af99;
+  background: radial-gradient(ellipse, #fffef0 0 16%, #fff6bd 38%, #ffd34d99 66%, transparent 76%);
+  box-shadow: 0 0 26px 16px #ffe788, 0 0 80px 42px #ffbe3d88;
   transform: translate(-50%, -50%) scale(.2);
 }
 
 .card-burst-ray {
   position: absolute;
-  width: 4px;
-  height: 34px;
+  width: 10px;
+  height: 78px;
   border-radius: 999px;
-  background: linear-gradient(to top, transparent, #fff8c8 35%, #fffdf0);
+  background: linear-gradient(to top, transparent, #ffe17a 35%, #fffde1);
   transform-origin: 50% 100%;
-  transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-22px) scaleY(.15);
+  box-shadow: 0 0 12px #ffe78a;
+  transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-18px) scaleY(.15);
+}
+
+.card-burst-star {
+  position: absolute;
+  color: #fff8be;
+  font-size: 2rem;
+  line-height: 1;
+  text-shadow: 0 0 7px #fff2a1, 0 0 18px #ffb52e;
+  transform: translate(-50%, -50%) scale(.1) rotate(-25deg);
+}
+
+.card-burst-star-1 { left: -82px; top: -52px; }
+.card-burst-star-2 { left: 74px; top: -76px; font-size: 1.5rem; }
+.card-burst-star-3 { left: -42px; top: -126px; font-size: 1.2rem; }
+.card-burst-star-4 { left: 42px; top: -148px; font-size: 1.8rem; }
+.card-burst-star-5 { left: 112px; top: -18px; font-size: 1.1rem; }
+
+.envelope-wrapper.is-open .card-burst-star {
+  animation: burst-star .9s cubic-bezier(.2, .8, .25, 1) .28s both;
 }
 
 .envelope-wrapper.is-open .card-burst {
   animation: burst-fade 1.15s ease-out .2s both;
+}
+
+.envelope-wrapper.is-open .card-burst::before,
+.envelope-wrapper.is-open .card-burst::after {
+  animation: burst-beam 1s ease-out .2s both;
 }
 
 .envelope-wrapper.is-open .card-burst-glow {
@@ -436,13 +484,25 @@ function scrollToDetails() {
 @keyframes burst-glow {
   0% { transform: translate(-50%, -50%) scale(.2); opacity: 0; }
   25% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+}
+
+@keyframes burst-beam {
+  0% { opacity: 0; height: 30px; }
+  25% { opacity: .95; }
+  100% { opacity: 0; height: 220px; }
 }
 
 @keyframes burst-ray {
   0% { transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-12px) scaleY(.15); opacity: 0; }
   35% { opacity: 1; }
-  100% { transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-58px) scaleY(1); opacity: 0; }
+  100% { transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-92px) scaleY(1); opacity: 0; }
+}
+
+@keyframes burst-star {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.1) rotate(-25deg); }
+  35% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) rotate(8deg); }
+  100% { opacity: 0; transform: translate(-50%, -90px) scale(.55) rotate(35deg); }
 }
 
 /* Action bar below envelope when open */
