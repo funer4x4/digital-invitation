@@ -22,6 +22,11 @@
           </button>
         </div>
 
+        <div class="card-burst" aria-hidden="true">
+          <span v-for="spark in 12" :key="spark" class="card-burst-ray" :style="{ '--ray': `${spark * 30}deg` }"></span>
+          <span class="card-burst-glow"></span>
+        </div>
+
         <!-- Textured sage paper and diagonal folds -->
         <div class="envelope-pocket">
           <svg class="pocket-v-line" viewBox="0 0 320 210" preserveAspectRatio="none">
@@ -378,6 +383,68 @@ function scrollToDetails() {
   z-index: 10;
 }
 
+/* Brief burst that follows the letter as it emerges. */
+.card-burst {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  z-index: 11;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.card-burst-glow {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fff8c8;
+  box-shadow: 0 0 18px 8px #ffe59a, 0 0 48px 18px #fff1af99;
+  transform: translate(-50%, -50%) scale(.2);
+}
+
+.card-burst-ray {
+  position: absolute;
+  width: 4px;
+  height: 34px;
+  border-radius: 999px;
+  background: linear-gradient(to top, transparent, #fff8c8 35%, #fffdf0);
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-22px) scaleY(.15);
+}
+
+.envelope-wrapper.is-open .card-burst {
+  animation: burst-fade 1.15s ease-out .2s both;
+}
+
+.envelope-wrapper.is-open .card-burst-glow {
+  animation: burst-glow .8s ease-out .2s both;
+}
+
+.envelope-wrapper.is-open .card-burst-ray {
+  animation: burst-ray .8s cubic-bezier(.18, .8, .25, 1) .2s both;
+}
+
+@keyframes burst-fade {
+  0%, 55% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes burst-glow {
+  0% { transform: translate(-50%, -50%) scale(.2); opacity: 0; }
+  25% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+}
+
+@keyframes burst-ray {
+  0% { transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-12px) scaleY(.15); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: translate(-50%, -100%) rotate(var(--ray)) translateY(-58px) scaleY(1); opacity: 0; }
+}
+
 /* Action bar below envelope when open */
 .open-action-bar {
   margin-top: 1rem;
@@ -486,6 +553,7 @@ function scrollToDetails() {
 @media (prefers-reduced-motion: reduce) {
   .envelope-wrapper { animation: none; }
   .envelope-flap, .invitation-letter, .wax-seal { transition: none; }
+  .card-burst { display: none; }
 }
 
 /* Keep the envelope and its opened card readable on short and narrow screens. */
